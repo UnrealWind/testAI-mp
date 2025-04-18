@@ -56,58 +56,58 @@
               <span style="color: red;display: block;text-align: center;font-size: 10px;margin-top: 5px">系统用户请使用账号密码登录！</span>
             </p>
           </div>
-          <div v-if="phoneLogin === 'password'">
-            <div class="btn-box center">
+<!--          <div v-if="phoneLogin === 'password'">-->
+<!--            <div class="btn-box center">-->
 
-              <van-cell-group style="margin-bottom: 20px">
-                <van-field
-                    placeholder-style="color:#666;font-size:15px;"
-                    :value="phone"
-                    placeholder="请输入账号"
-                    @change="onChange($event,'phone')"
-                />
-                <van-field
-                    placeholder-style="color:#666;font-size:15px;"
-                    :value="password"
-                    type="password"
-                    placeholder="请输入密码"
-                    @change="onChange($event,'password')"
-                />
-              </van-cell-group>
+<!--              <van-cell-group style="margin-bottom: 20px">-->
+<!--                <van-field-->
+<!--                    placeholder-style="color:#666;font-size:15px;"-->
+<!--                    :value="phone"-->
+<!--                    placeholder="请输入账号"-->
+<!--                    @change="onChange($event,'phone')"-->
+<!--                />-->
+<!--                <van-field-->
+<!--                    placeholder-style="color:#666;font-size:15px;"-->
+<!--                    :value="password"-->
+<!--                    type="password"-->
+<!--                    placeholder="请输入密码"-->
+<!--                    @change="onChange($event,'password')"-->
+<!--                />-->
+<!--              </van-cell-group>-->
 
-              <!--这个按钮以后封组件-->
-              <div>
-                <van-button
-                    color="#2d3d61"
-                    class="btn-icon"
-                    @click="loginByPhone(password)"
-                    v-if="checked && (sysUser || tmnlUser)"
-                >
-                  登录
-                </van-button>
-                <van-button
-                    color="#2d3d61"
-                    class="btn-icon"
-                    v-else
-                    @click="showTipOther"
-                >
-                  登录
-                </van-button>
-              </div>
+<!--              &lt;!&ndash;这个按钮以后封组件&ndash;&gt;-->
+<!--              <div>-->
+<!--                <van-button-->
+<!--                    color="#2d3d61"-->
+<!--                    class="btn-icon"-->
+<!--                    @click="loginByPhone(password)"-->
+<!--                    v-if="checked && (sysUser || tmnlUser)"-->
+<!--                >-->
+<!--                  登录-->
+<!--                </van-button>-->
+<!--                <van-button-->
+<!--                    color="#2d3d61"-->
+<!--                    class="btn-icon"-->
+<!--                    v-else-->
+<!--                    @click="showTipOther"-->
+<!--                >-->
+<!--                  登录-->
+<!--                </van-button>-->
+<!--              </div>-->
 
-              <div class="input-box">
-                <p>
-                  <van-checkbox style="display: inline-block;position:relative;z-index: 999" :value="checked" shape="round" icon-size="15px" checked-color="#2d3d61" @change="onChange($event,'checked')">
-                    阅读并同意以下协议 <span @click.stop="goAgreement" style=" color: #4a94f3"> 《服务协议》</span>
-                  </van-checkbox>
-                </p>
+<!--              <div class="input-box">-->
+<!--                <p>-->
+<!--                  <van-checkbox style="display: inline-block;position:relative;z-index: 999" :value="checked" shape="round" icon-size="15px" checked-color="#2d3d61" @change="onChange($event,'checked')">-->
+<!--                    阅读并同意以下协议 <span @click.stop="goAgreement" style=" color: #4a94f3"> 《服务协议》</span>-->
+<!--                  </van-checkbox>-->
+<!--                </p>-->
 
-              </div>
-            </div>
-            <p style="position: fixed;right: 10px;bottom: 10px;height: 30px;width: 90%;padding: 0 15px;text-align: right;color: #4a94f3" @click="changeLoginType('code')">
-<!--              <span style="float:left;color: #4e90fc" @click.stop="jumpClink">去往clink小程序</span>-->
-              手机号快捷登录</p>
-          </div>
+<!--              </div>-->
+<!--            </div>-->
+<!--            <p style="position: fixed;right: 10px;bottom: 10px;height: 30px;width: 90%;padding: 0 15px;text-align: right;color: #4a94f3" @click="changeLoginType('code')">-->
+<!--&lt;!&ndash;              <span style="float:left;color: #4e90fc" @click.stop="jumpClink">去往clink小程序</span>&ndash;&gt;-->
+<!--              手机号快捷登录</p>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
@@ -207,31 +207,31 @@ export default {
       console.log(e)
       this.login(e)
     },
-    loginByPhone(type) {
-      // let url = 'sys/login'
-      let url = 'api/auth/login'
-      let data = {
-        username: this.phone,
-        password: this.password,
-      }
-
-      this.$http.post(url, data).then((res) => {
-        // 账号密码登录 usertype 必定为 sysuser
-        // res.result['user-type'] = 'sysUser'
-        uni.setStorage({
-          key: 'userInfo',
-          data: JSON.stringify(res),
-          success: function () {
-            //
-          }
-        });
-
-        this.$store.commit('setUserInfo', res)
-
-        this.$route.reLaunch('/pages/common/index')
-      })
-      // do login
-    },
+    // loginByPhone(type) {
+    //   // let url = 'sys/login'
+    //   let url = 'api/auth/login'
+    //   let data = {
+    //     username: this.phone,
+    //     password: this.password,
+    //   }
+    //
+    //   this.$http.post(url, data).then((res) => {
+    //     // 账号密码登录 usertype 必定为 sysuser
+    //     // res.result['user-type'] = 'sysUser'
+    //     uni.setStorage({
+    //       key: 'userInfo',
+    //       data: JSON.stringify(res),
+    //       success: function () {
+    //         //
+    //       }
+    //     });
+    //
+    //     this.$store.commit('setUserInfo', res)
+    //
+    //     this.$route.reLaunch('/pages/common/index')
+    //   })
+    //   // do login
+    // },
     // fydebug 获取用户信息相关,以后可能会用
     auth(e) {
       if (e.mp.detail.userInfo) Toast.success('授权成功！')

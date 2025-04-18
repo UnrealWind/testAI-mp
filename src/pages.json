@@ -1,0 +1,71 @@
+{
+  "pages": [
+    {
+      "path": "pages/common/index",
+      "style": {
+        "enablePullDownRefresh": true
+      }  // 首页
+    },
+    {
+      "path": "pages/common/authorization",
+      "style": {} // 微信登陆
+    },
+    {
+      "path": "pages/common/guide",
+      "style": {
+        "enablePullDownRefresh": true
+      }  // 导航
+    }
+  ],
+  "subPackages": [{
+    "root": "pages/view",
+    "pages": [
+
+    ]
+  }],
+  "globalStyle": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false,
+    "navigationStyle": "custom",
+    "usingComponents": {
+      "van-button": "./static/vant-weapp-new/dist/button/index",
+      "van-row": "./static/vant-weapp-new/dist/row/index",
+      "van-col": "./static/vant-weapp-new/dist/col/index",
+      "van-loading": "./static/vant-weapp-new/dist/loading/index",
+      "van-icon": "./static/vant-weapp-new/dist/icon/index",
+      "van-tabbar": "./static/vant-weapp-new/dist/tabbar/index",
+      "van-tabbar-item": "./static/vant-weapp-new/dist/tabbar-item/index",
+      "van-cell": "./static/vant-weapp-new/dist/cell/index",
+      "van-cell-group": "./static/vant-weapp-new/dist/cell-group/index",
+      "van-field": "./static/vant-weapp-new/dist/field/index",
+      "van-radio": "./static/vant-weapp-new/dist/radio/index",
+      "van-radio-group": "./static/vant-weapp-new/dist/radio-group/index",
+      "van-toast": "./static/vant-weapp-new/dist/toast/index",
+      "van-dialog": "./static/vant-weapp-new/dist/dialog/index",
+      "van-tab": "/static/vant-weapp-new/dist/tab/index",
+      "van-tabs": "/static/vant-weapp-new/dist/tabs/index",
+      "van-popup": "/static/vant-weapp-new/dist/popup/index",
+      "van-action-sheet": "/static/vant-weapp-new/dist/action-sheet/index",
+      "van-stepper": "/static/vant-weapp-new/dist/stepper/index",
+      "van-transition": "/static/vant-weapp-new/dist/transition/index",
+      "van-checkbox": "/static/vant-weapp-new/dist/checkbox/index",
+      "van-checkbox-group": "/static/vant-weapp-new/dist/checkbox-group/index",
+      "van-search": "/static/vant-weapp-new/dist/search/index",
+      "van-tag": "/static/vant-weapp-new/dist/tag/index",
+      "van-steps": "/static/vant-weapp-new/dist/steps/index",
+      "van-image": "/static/vant-weapp-new/dist/image/index",
+      "van-datetime-picker": "/static/vant-weapp-new/dist/datetime-picker/index",
+      "van-picker": "/static/vant-weapp-new/dist/picker/index",
+      "van-uploader": "/static/vant-weapp-new/dist/uploader/index",
+      "van-slider": "/static/vant-weapp-new/dist/slider/index",
+      "van-collapse": "/static/vant-weapp-new/dist/collapse/index",
+      "van-collapse-item": "/static/vant-weapp-new/dist/collapse-item/index",
+      "van-overlay": "/static/vant-weapp-new/dist/overlay/index",
+      "van-divider": "/static/vant-weapp-new/dist/divider/index",
+      "van-rate": "/static/vant-weapp-new/dist/rate/index",
+      "van-empty": "/static/vant-weapp-new/dist/empty/index"
+    }
+  }
+}

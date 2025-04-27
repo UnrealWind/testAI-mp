@@ -6,7 +6,7 @@
           <img
             class="loginBg"
             mode="widthFix"
-            src="https://cty.tygps.com/gpsapi/sys/common/static/temp/20240102/loginBg_1704156891881.jpg"
+            src="../../static/img/bg.png"
           />
           <div v-if="phoneLogin === 'code'">
             <div class="btn-box center">
@@ -50,11 +50,11 @@
 <!--                </p>-->
               </div>
             </div>
-            <p style="position: fixed;right: 10px;bottom: 50px;height: 30px;width: 90%;padding: 0 15px;text-align: center;color: #4a94f3" @click="changeLoginType('password')">
-<!--              <span style="float:left;color: #4e90fc" @click.stop="jumpClink">去往clink小程序</span> -->
-              账号密码登录
-              <span style="color: red;display: block;text-align: center;font-size: 10px;margin-top: 5px">系统用户请使用账号密码登录！</span>
-            </p>
+<!--            <p style="position: fixed;right: 10px;bottom: 50px;height: 30px;width: 90%;padding: 0 15px;text-align: center;color: #4a94f3" @click="changeLoginType('password')">-->
+<!--&lt;!&ndash;              <span style="float:left;color: #4e90fc" @click.stop="jumpClink">去往clink小程序</span> &ndash;&gt;-->
+<!--              账号密码登录-->
+<!--              <span style="color: red;display: block;text-align: center;font-size: 10px;margin-top: 5px">系统用户请使用账号密码登录！</span>-->
+<!--            </p>-->
           </div>
 <!--          <div v-if="phoneLogin === 'password'">-->
 <!--            <div class="btn-box center">-->
@@ -326,7 +326,7 @@ export default {
 <style lang="scss" scoped>
 .loginBg {
   position: absolute;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   top: 0;
   left: 0;

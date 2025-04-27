@@ -1,14 +1,20 @@
 {
   "pages": [
     {
+      "path": "pages/common/authorization",
+      "style": {} // 微信登陆
+    },
+    {
       "path": "pages/common/index",
       "style": {
         "enablePullDownRefresh": true
       }  // 首页
     },
     {
-      "path": "pages/common/authorization",
-      "style": {} // 微信登陆
+      "path": "pages/common/detail",
+      "style": {
+        "enablePullDownRefresh": true
+      } // 详情
     },
     {
       "path": "pages/common/guide",

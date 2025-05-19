@@ -6,8 +6,8 @@
 <!--      </div>-->
       <img style="width: 100%" src="../../../static/img/min-bg.jpg" />
       <div class="userName">
-        <p>nickname</p>
-        <span>账号：18888888888</span>
+        <p>{{user.nickName || '-'}}</p>
+        <span>账号：{{user.phonenumber}}</span>
       </div>
     </div>
     <van-cell-group>
@@ -30,6 +30,7 @@ export default {
       status: 'loading',
       user: {},
       coupon: [],
+      vipInfo:{},
       needRead: false,
       userType:store.state.userInfo['user-type'],
     }
@@ -44,19 +45,48 @@ export default {
     },
   },
   mounted() {
+    let that = this
+    uni.getStorage({
+      key:'userInfo',
+      success(res) {
+        if(res.data){
+          that.user = JSON.parse(res.data)
+        }else {
+          // that.$route.push('/pages/common/authorization')
+        }
+      },
+      fail(e){
+        // that.$route.push('/pages/common/authorization')
+      }
+    })
     this.init()
   },
   methods: {
     async login() {},
     async init() {
-      this.user = store.state.userInfo
       try {
-
+        this.getVipInfo()
+        this.getVipRecord()
       } catch (e) {
         this.status = 'error'
         throw e
       }
       this.status = 'success'
+    },
+    getVipInfo(){
+      //
+      this.$http
+          .get(`book/user/vipInfo`, {})
+          .then((res) => {
+            this.vipInfo = res.data
+          })
+    },
+    getVipRecord(){
+      this.$http
+          .get(`book/user/borrowRecord`, {})
+          .then((res) => {
+            debugger
+          })
     },
     goAuthority() {
       this.$route.push('/pages/common/authority')

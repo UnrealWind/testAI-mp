@@ -1,6 +1,6 @@
 {
   "name": "远望MP",
-  "appid": "wx89e49ce5ba3b1241",
+  "appid": "wx88060fd4ca8a1406",
   "description": "test",
   "transformPx": false,
   "window": {
@@ -22,7 +22,7 @@
   },
   "quickapp": {},
   "mp-weixin": {
-    "appid": "wx89e49ce5ba3b1241",
+    "appid": "wx88060fd4ca8a1406",
     "setting": {
       "urlCheck": false
     },

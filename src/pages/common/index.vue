@@ -89,7 +89,16 @@ export default {
     },
   },
   onShow() {
+    let that = this
     uni.startPullDownRefresh();
+    uni.getStorage({
+      key:'token',
+      success(res) {
+        if(res.data){
+          that.$store.commit('setToken', res.data)
+        }
+      },
+    })
     this.init()
   },
   onLoad() {

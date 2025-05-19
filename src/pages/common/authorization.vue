@@ -37,7 +37,6 @@
                     阅读并同意以下协议 <span @click.stop="goAgreement" style=" color: #4a94f3"> 《服务协议》</span>
                   </van-checkbox>
                 </p>
-
 <!--                <p>-->
 <!--                  <van-checkbox style="display: inline-block;position:relative;z-index: 999" :value="tmnlUser" shape="round" icon-size="15px" checked-color="#2d3d61" @change="onChange($event,'tmnlUser')">-->
 <!--                    终端用户-->
@@ -249,45 +248,46 @@ export default {
             return
           }
 
-          let res = await this.$http
-            .post('sys/wechatCodeLogin', {
-              authCode: this.code,
-            })
-            .then((res) => {
-              return res
-            })
           await this.$http
-            .post('sys/wechatPhoneLogin', {
-              authCode: info.detail.code,
-              openId: res.result.openid,
-              loginType: this.tmnlUser?'tmnlUser':'sysUser',
+            .get('wxlogin', {
+              loginCode: this.code,
+              phoneCode: info.detail.code,
+              deptId:''
             })
             .then((res) => {
-              !res.result['userInfo']? res.result['userInfo'] = JSON.parse(JSON.stringify(res.result)):''
-              res.result['user-type'] = this.tmnlUser?'tmnlUser':'sysUser'
+              this.$store.commit('setToken', res.token)
               uni.setStorage({
-                key: 'userInfo',
-                data: JSON.stringify(res.result),
+                key: 'token',
+                data:  res.token,
                 success: function () {
                   //
                 }
               });
 
-              this.$store.commit('setUserInfo', res.result)
+              this.$http
+                .get('getInfo', {})
+                .then((res) => {
+                  this.$store.commit('setUserInfo',res.user)
+                  uni.setStorage({
+                    key: 'userInfo',
+                    data: JSON.stringify(res.user),
+                    success: function () {
+                      //
+                    }
+                  });
+                })
 
-              this.$http.post('backGroundPoint/add', {
-                tenant: res.result.groupid,
-                menu1:'登录',
-                menu2:'',
-                menu3:'',
-                function:`${res.result.userInfo.realname || res.result.userInfo.username}登录`,
-                account: res.result.userInfo.username,
-                createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-                eventType:'点击事件',
-                appType:'小程序端',
-              }).then((res) => {
-
-              })
+              // !res.result['userInfo']? res.result['userInfo'] = JSON.parse(JSON.stringify(res.result)):''
+              // res.result['user-type'] = this.tmnlUser?'tmnlUser':'sysUser'
+              // uni.setStorage({
+              //   key: 'userInfo',
+              //   data: JSON.stringify(res.result),
+              //   success: function () {
+              //     //
+              //   }
+              // });
+              //
+              // this.$store.commit('setUserInfo', res.result)
 
               this.goIndex()
             })
@@ -308,7 +308,7 @@ export default {
     },
     jumpClink(){
       wx.navigateToMiniProgram({
-        appId: 'wx89e49ce5ba3b1241',
+        appId: 'wx88060fd4ca8a1406',
         success(res) {
           // 打开成功
         }

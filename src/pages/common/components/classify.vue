@@ -22,8 +22,12 @@
             @cancel="clearRecord"
             @search="searchRecord"
         />
+        <van-tabs :active="tarTab" @change="changeTab">
+          <van-tab :title="item.label" v-for="(item,index ) in tagInfo">
+          </van-tab>
+        </van-tabs>
         <div class="main-list" v-if="searching">
-          <div class="book" @click="" v-for="(item,index) in list0">
+          <div class="book" @click="" v-for="(item,index) in searchList">
             <div class="book-img">
               <img src="https://img3m3.ddimg.cn/0/32/28994823-1_w_9.jpg" />
             </div>
@@ -39,24 +43,15 @@
         <div class="main-list" v-else>
           <div class="classify" >
             <div class="left">
-              <div class="active">0-1岁</div>
-              <div>1-2岁</div>
-              <div>2-3岁</div>
-              <div>3-4岁</div>
-              <div>4-5岁</div>
-              <div>5-6岁</div>
+              <div v-for="(item,index) in tagList" :class="item.active?'active':''">{{item.dictLabel}}</div>
             </div>
             <div class="right">
               <div class="book-cont">
-                <h4>绘本</h4>
-                <div class="book-item"><img src="https://img3m3.ddimg.cn/0/32/28994823-1_w_9.jpg" /></div>
-                <div class="book-item"><img src="https://img3m0.ddimg.cn/27/30/25217010-1_w_2.jpg" /></div>
-                <div class="book-item"><img src="https://img3m8.ddimg.cn/54/10/29305638-1_w_10.jpg" /></div>
-                <div class="book-item"><img src="https://img3m0.ddimg.cn/85/33/29189740-1_w_10.jpg" /></div>
-                <div class="book-item"><img src="https://img3m3.ddimg.cn/0/32/28994823-1_w_9.jpg" /></div>
-                <div class="book-item"><img src="https://img3m0.ddimg.cn/27/30/25217010-1_w_2.jpg" /></div>
-                <div class="book-item"><img src="https://img3m8.ddimg.cn/54/10/29305638-1_w_10.jpg" /></div>
-                <div class="book-item"><img src="https://img3m0.ddimg.cn/85/33/29189740-1_w_10.jpg" /></div>
+<!--                <h4>绘本</h4>-->
+                <div class="book-item" v-for="(item,index) in bookList" @click="goBookDetail(item)">
+                  <img :src="`http://172.16.2.113:8083/images/${item.coverUrl}`" />
+                  <p>{{item.bookName}}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -74,28 +69,30 @@ export default {
     return {
       status: 'loading',
       _freshing: false,
+      tarTab:0,
       active:0,
+      tagInfo:[{
+        label:'0-3',
+        key:'book_tag0'
+      },{
+        label:'3-6',
+        key:'book_tag1'
+      },{
+        label:'6-9',
+        key:'book_tag2'
+      },{
+        label:'9-12',
+        key:'book_tag3'
+      }],
+      tagList:[],
+      searchList:[],
       triggered: false,
       searchText:'',
       searching:false,
-      list0:[{
-        bookName:'我想和你做朋友',
-        author:'一个作者',
-        publishingHouse:'一个出版社',
-        score:'一个评分',
-        coverUrl:'',
-        introduction:'一段特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别长的简介',
-      },{
-        bookName:'我想和你做朋友',
-        author:'一个作者',
-        publishingHouse:'一个出版社',
-        score:'一个评分',
-        coverUrl:'',
-        introduction:'一段特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别特别长的简介',
-      }],
+      bookList:[],
       ipagination: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 15,
         total: 0,
       },
     }
@@ -121,6 +118,10 @@ export default {
   methods: {
     async init() {
       try {
+        this.getBookTag()
+        this.getRecordList({
+          pageNo: this.ipagination.pageNo,
+        })
 
       } catch (e) {
         this.status = 'error'
@@ -128,7 +129,19 @@ export default {
       }
       this.status = 'success'
     },
-
+    goBookDetail(item){
+      this.$route.push('/pages/common/detail?id='+ item.bookId)
+    },
+    getBookTag(){
+      this.$http
+        .get(`system/dict/data/type/book_tag${this.tarTab}`, {})
+        .then((res) => {
+          this.tagList = res.data
+        })
+    },
+    changeTab(e){
+      this.tarTab = e.detal.index
+    },
     onPulling(e) {
       console.log('onpulling', e)
     },
@@ -139,7 +152,7 @@ export default {
           //界面下拉触发，triggered可能不是true，要设为true
         this.triggered = true
       this.ipagination.pageNo = 0
-      this['list'+this.active] = []
+      this.bookList = []
       this.markers = []
       this.getRecordList({
         pageNo: ++this.ipagination.pageNo,
@@ -157,7 +170,7 @@ export default {
       if (
           Math.floor(
               Math.ceil(
-                  this['list'+this.active].length /
+                  this.bookList.length /
                   this.ipagination.pageSize
               ) ===
               Math.ceil(
@@ -188,28 +201,22 @@ export default {
     searchRecord(e) {
       e.type?this.searchText = e.detail: this.searchText =e
       this.resetRecordList()
-      this['list'+this.active] = []
+      this.bookList = []
       this.ipagination.pageNo = 1
     },
 
     // 获取列表
     async getRecordList(opt) {
-      let data = {
-        pageSize: this.active == 2 ?  9999:this.ipagination.pageSize,
-        page:opt.pageNo,
-      }
       await this.$http
-          .get('api/tenant/deviceInfos', {
-            pageSize: this.active == 2 ?  9999:this.ipagination.pageSize,
-            page:opt.pageNo,
-            sortProperty: 'createdTime',
-            sortOrder: 'DESC'
+          .get('system/book/list', {
+            pageSize: this.ipagination.pageSize,
+            pageNum:opt.pageNo,
           })
           .then((res) => {
-            this['list'+this.active] = this['list'+this.active].concat(
-                res.data
+            this.bookList = this.bookList.concat(
+                res.rows
             )
-            this.ipagination.total = res.data.length0
+            this.ipagination.total = res.total
           })
     },
     onChange(e){
@@ -275,6 +282,16 @@ export default {
           image {
             width: 70px;
             height: 90px;
+          }
+          p {
+            height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            margin-bottom: 10px;
           }
         }
       }

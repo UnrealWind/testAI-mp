@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
-        userInfo:{}
+        userInfo:{},
+        token:''
     },
     getters: {
         getState: state => {
@@ -16,7 +17,10 @@ const store = new Vuex.Store({
         },
         setUserAv(state,data){
             state.userInfo.userInfo.avatar = data
-        }
+        },
+        setToken(state,data){
+            state.token = data
+        },
     },
     actions: {}
 })
